@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- tld标签库描述文件 -->
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" version="2.0">
+
+    <!--  描述TLD文件  -->
+    <description>Custom 1.0 core library</description>
+    <display-name>Custom core</display-name>
+    <tlib-version>1.0</tlib-version>
+    <!-- short-name是建议使用的prefix(前缀) -->
+    <short-name>olg</short-name>
+    <!-- tld的id,用于标识tld，多个tld文件的uri不能重复，在jsp页面的taglib的uri属性使用-->
+    <uri>http://www.test.com/hello/core</uri>
+
+    <tag>
+        <!--标签名-->
+        <name>hello</name>
+        <!--标签对应的解析类-->
+        <tag-class>com.custom.tag.HelloTag</tag-class>
+        <!--标签中的内容类型,empty表示没有标签体内容-->
+        <body-content>empty</body-content>
+        <!-- 标签可以放的属性 -->
+        <attribute>
+            <!--属性名,与对应类的属性同名-->
+            <name>value</name>
+            <!--属性是否必须-->
+            <required>true</required>
+            <!--Run-time Expression Value 表示是否可以接收运行时表达式动态的值-->
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <!--属性名,与对应类的属性同名 -->
+            <name>count</name>
+            <!--属性是否必须-->
+            <required>false</required>
+            <!--Run-time Expression Value 表示是否可以接收运行时表达式动态的值-->
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>max</name>
+        <tag-class>com.custom.tag.MaxTag</tag-class>
+        <body-content>empty</body-content>
+
+        <attribute>
+            <name>num1</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>num2</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>readFile</name>
+        <tag-class>com.custom.tag.ReadFileTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>src</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>testFragment</name>
+        <tag-class>com.custom.tag.TestFragment</tag-class>
+        <!--就是不能用jsp脚本(<%%>),el还是可以用的-->
+        <body-content>scriptless</body-content>
+        <!--标签体的全部内容不进行处理直接交给标签处理器(就是类)-->
+        <!--<body-content>tagdependent</body-content>-->
+    </tag>
+
+    <tag>
+        <name>forEach</name>
+        <tag-class>com.custom.tag.ForEachTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>items</name>
+            <required>yes</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>var</name>
+            <required>yes</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>parentTag</name>
+        <tag-class>com.custom.tag.ParentTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+
+    <tag>
+        <name>sonTag</name>
+        <tag-class>com.custom.tag.SonTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+
+    <!--/////-->
+    <tag>
+        <name>choose</name>
+        <tag-class>com.custom.tag.choose.ChooseTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+    <tag>
+        <name>when</name>
+        <tag-class>com.custom.tag.choose.WhenTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>test</name>
+            <required>yes</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>otherwise</name>
+        <tag-class>com.custom.tag.choose.OtherwiseTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+</taglib>
