@@ -1,0 +1,46 @@
+<!--   使用innerHtml更新页面    -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>hello</title>
+    <script>
+        window.onload = ()=>{
+            let aNodes = document.getElementsByTagName("a");
+            for (let i =0; i < aNodes.length; i++){
+                aNodes[i].onclick = function() {
+                    let request = new XMLHttpRequest();
+                    let method = "GET";
+                    let url = this.href;
+                    request.open(method, url);
+                    request.setRequestHeader("charset", "utf-8");
+                    request.send(null);
+                    request.onreadystatechange = () => {
+                        if (request.readyState === 4) {
+                            if (request.status === 200 || request.status === 304) {
+                                let details = document.getElementById("details");
+                                details.innerHTML = request.responseText;
+                            }
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1>People</h1>
+        <ul>
+            <li><a href="../helloWorld.txt">AAA</a></li>
+            <br/>
+            <li><a href="../helloWorld1.txt">BBB</a></li>
+        </ul>
+        <div id="details"></div>
+    </div>
+</body>
+</html>

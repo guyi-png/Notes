@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册案例</title>
+    <style>
+        #hint{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<!-- 使用jquery库-->
+<!--
+    1.获取name=username的节点：username
+    2.为username添加响应函数change
+    3.获取username的value属性值，使用trim去除前后空格且不为空
+    4.发送ajax请求
+    5.发送Ajax请求后判断是否可用
+    6.添加提示信息，提示是否可用
+    7.该提示信息（html文件格式）直接插入到id=hint标签中
+-->
+<form action="#" method="post">
+    <label for="username">Username: &nbsp</label>
+    <input type="text" id="username" name="username">
+    <input type="submit" value="submit">
+    <div id="hint">该用户已存在</div>
+</form>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#username").change(function(){
+            let val = $(this).val();
+            $.trim(val);
+
+            if (val !== ""){
+                let url = "./validateUsername";
+                let args = {"username": val, "time": new Date()};
+                $.post(url, args, function(data){
+                    $("#hint").html(data);
+                });
+            }
+        })
+    })
+</script>
+</body>
+</html>

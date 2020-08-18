@@ -1,0 +1,31 @@
+<!-- 使用json更新页面  -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            color: bisque;
+        }
+    </style>
+    <script>
+        let jsonObject = {
+            "name":"olg",
+            "age": 18,
+            "address": { "city":"china", "school": "xxxxxx"}
+        };
+        let str = JSON.stringify(jsonObject);
+        console.log(str);
+        let jsonStr = '{"name": "olg", "age": 19}';
+        let object = JSON.parse(jsonStr);
+        console.log(object);
+    </script>
+</head>
+<body>
+    <div></div>
+</body>
+</html>

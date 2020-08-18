@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>俺的网站</title>
+    <style>
+        input[type=file]{
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<h1>上传文件</h1>
+                                            <!--表单以二进制的方式传输-->
+<form action="uploadServlet" method="post" enctype="multipart/form-data">
+    <div class="num1">
+        <label>
+            File1:
+            <input type="file" name="file1">
+        </label>
+        <label>
+            Text1:
+            <input type="text" name="text1">
+        </label>
+        <br>
+    </div>
+
+    <input type="submit" id="submit" value="提交">
+    <br>
+    <!--button的默认type=submit-->
+    <button type="button" id="addFile">新增一个上传通道</button>
+</form>
+<script src="script/jQuery-v3.4.1.js"></script>
+<script>
+    $(()=>{
+        let num = 2;
+        $("#addFile").click(function(){
+            $("#submit").before(
+                `<div class="num${num}">
+                    <label id="file">
+                        File${num}:
+                    <input type="file" name="file${num}">
+                    </label>
+                    <label id="text">
+                        Text${num}:
+                    <input type="text" name="text${num}">
+                    </label>
+                    <button type="button">删除</button>
+                    <br>
+                </div>`
+            ).prev("div").find("button").click(function(){
+                $(this).parent().remove();
+                $("div").each(function (index) {
+
+                    $(this).attr("class", "num"+(index+1))
+                        .find("#file").html(`
+                            File${index+1}:
+                            <input type="file" name="file${index+1}">
+`                       )
+                        .next("#text").html(`
+                            Text${index+1}:
+                            <input type="text" name="text${index+1}">
+                        `)
+                })
+                num--;
+            });
+            num++;
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!--   使用XML更新页面    -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        window.onload = ()=>{
+            let aNodes = document.getElementsByTagName("a");
+            for (let i =0; i < aNodes.length; i++){
+                aNodes[i].onclick = function() {
+                    let request = new XMLHttpRequest();
+                    let method = "GET";
+                    let url = this.href;
+                    request.open(method, url);
+                    request.setRequestHeader("charset", "utf-8");
+                    request.send(null);
+                    request.onreadystatechange = () => {
+                        if (request.readyState === 4) {
+                            if (request.status === 200 || request.status === 304) {
+                                // 使用responseXML来获取，结果为XML格式
+                                let result = request.responseXML;
+                                // 格式不同， 不能直接使用
+                                // 先创建对应的节点， 再把该节点加到id=details的标签中
+                                // 从xml文件中获取节点
+                                let name = result.getElementsByTagName("name")[0].firstChild.nodeValue;
+                                let website = result.getElementsByTagName("website")[0].firstChild.firstChild.nodeValue;
+                                // 创建对应的节点
+                                let aElement = document.createElement("a");
+                                aElement.appendChild(document.createTextNode(name));
+                                aElement.href = website;
+                                //把该节点加到id=details的标签中
+                                let details = document.getElementById("details");
+                                details.appendChild(aElement);
+                            }
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div>
+    <h1>People</h1>
+    <ul>
+        <li><a href="test.xml">AAA</a></li>
+        <br/>
+        <li><a href="test1.xml">BBB</a></li>
+    </ul>
+    <div id="details"></div>
+</div>
+
+</body>
+</html>

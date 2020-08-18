@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <servlet>
+        <servlet-name>upload</servlet-name>
+        <servlet-class>com.java.upload.UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>upload</servlet-name>
+        <url-pattern>/uploadServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>download</servlet-name>
+        <servlet-class>com.java.download.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>download</servlet-name>
+        <url-pattern>/downloadServlet</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>com.java.upload.FileUploadListener</listener-class>
+    </listener>
+</web-app>

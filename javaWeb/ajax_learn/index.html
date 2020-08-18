@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            background-color: bisque;
+        }
+        a{
+            font-size: 30px;
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            color: black;
+            text-decoration: none;
+        }
+        a:hover{
+            color: red;
+        }
+    </style>
+    <script>
+        window.onload = () =>{
+            let a = document.getElementById("link"); // 获取dom
+            a.onclick = function(){ //绑定点击事件
+                // 创建XMLHttpRequest对象
+                let request = new XMLHttpRequest();
+                // 准备发送的请求数据的url, 为了禁用缓存，后面加上日期
+                let url = this.href + "?time="+new Date();
+                console.log(url);
+                //调用XMLHttpRequest对象的open()方法
+                request.open("POST", url);
+                // 设置请求头
+                request.setRequestHeader("charset", "utf-8");
+                request.setRequestHeader("ContentType", "application/x-www-form-urlencoded");
+                // 调用XMLHttpRequest对象的send()方法
+                request.send("name='olg'");
+                // 为 XMLHttpRequest对象添加onreadystatechange响应函数,由服务器触发
+                request.onreadystatechange = ()=>{
+                    // XMLHttpRequest对象的readyState属性值为4时表示响应完成
+                    if (request.readyState === 4){
+                        // 200状态码表示从客户端发来的请求在服务器端被正常处理了。
+                        // 304状态码该状态码表示客户端发送附带条件的请求时，
+                        // 服务器端允许请求访问资源，但未满足条件的情况
+                        if (request.status === 200 || request.status === 304){
+                            //打印响应, 这里输出是./helloWorld.txt文件的内容
+                            // document.write(request.response);
+                            alert(request.response);
+                        }
+                    }
+                };
+                return false; //取消默认行为, 这里是页面不会跳转
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <a id="link" href="./helloWorld.txt">请点击我</a>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!--<a href="../helloWorld.txt"></a>-->
+<a href="../any.xml">アンサー </a>
+<div id = "content"></div>
+
+
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    $(()=>{
+        // txt文件
+        $("a").click(function(){
+            // 使用load方法处理Ajax
+            let url = this.href;
+            let param = {"time": new Date()};
+            // 将url指定的数据加载到id=content的标签上
+            $("#content").load(url, param);
+            return false;
+        });
+
+        // xml文件
+        $("a").click(function(){
+            let url = this.href;
+            let param = {"time": new Date()};
+            $.get(url, param, function(data){
+                  let name = $(data).find("name").text();
+                  let email = $(data).find("email").text();
+                  let website = $(data).find("website").text();
+
+                  $("#content").empty().append(
+                      `<h1><a href="${website}">${name}: ${email}</a><h1>`
+                  );
+            });
+            return false;
+        });
+
+        //json文件
+        $("a").click(function(){
+            let url = this.href;
+            let param = {"time": new Date()};
+            $.getJSON(url, param, function(data){
+                let name = data.person.name;
+                let email = data.person.email;
+                let website = data.person.website;
+                $("#content").empty().append(
+                    `<h1><a href="${website}">${name}: ${email}</a><h1>`
+                );
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

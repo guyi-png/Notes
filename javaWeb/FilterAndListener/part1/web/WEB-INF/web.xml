@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <context-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </context-param>
+
+    <!--配置Filter-->
+    <!--先注册-->
+    <filter>
+        <filter-name>helloFilter</filter-name>
+        <filter-class>com.test.filter.HelloFilter</filter-class>
+        <init-param> <!--配置参数-->
+            <param-name>name</param-name>
+            <param-value>olg</param-value>
+        </init-param>
+    </filter>
+    <!--再映射-->
+    <filter-mapping>
+        <filter-name>helloFilter</filter-name>
+        <url-pattern>/hello.jsp</url-pattern>
+        <!--指定过滤器所拦截的资源被Servlet容器调用的方式-->
+        <!--可以是 REQUEST INCLUDE FORWARD ERROR-->
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+
+    <filter>
+        <filter-name>testFilter</filter-name>
+        <filter-class>com.test.filter.TestFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>testFilter</filter-name>
+        <url-pattern>/hello.jsp</url-pattern>
+    </filter-mapping>
+
+
+    <filter>
+        <filter-name>noCacheFilter</filter-name>
+        <filter-class>com.test.filter.NoCacheFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>noCacheFilter</filter-name>
+        <url-pattern>/cache/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.test.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/encoding/*</url-pattern>
+    </filter-mapping>
+</web-app>

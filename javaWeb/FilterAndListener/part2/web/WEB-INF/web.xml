@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <servlet>
+        <servlet-name>AuthorityServlet</servlet-name>
+        <servlet-class>com.java.authority.AuthorityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthorityServlet</servlet-name>
+        <url-pattern>/AuthorityServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.java.authority.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/loginServlet</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthorityFilter</filter-name>
+        <filter-class>com.java.authority.AuthorityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthorityFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+</web-app>
