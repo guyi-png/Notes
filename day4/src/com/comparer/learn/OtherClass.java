@@ -42,6 +42,6 @@ public class OtherClass {
 
 
         System.exit(0); //正常的退出
-        System.out.println("命运就是如此,哈哈哈");
+        System.out.println("看把你能的,哈哈哈");
     }
 }

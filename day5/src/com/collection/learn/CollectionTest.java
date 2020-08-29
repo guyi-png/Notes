@@ -17,7 +17,7 @@ import java.util.Collection;
  *      * 对于获取数组中实际元素个数，没有现成的属性或方法可用
  *      * 数组存储数据是有序的元素可重复
  * 二： 集合框架
- *      |----Collections接口：单列集合，用来存储一个一个的对象
+ *      |----Collection接口：单列集合，用来存储一个一个的对象
  *          |----List接口（动态数组）： 存储有序的，可重复的数据
  *              |----ArrayList, LinkedList, Vector
  *          |----set接口： 存储无序的，不重复的数据
