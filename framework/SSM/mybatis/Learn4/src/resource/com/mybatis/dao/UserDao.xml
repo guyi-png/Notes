@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.UserDao">
+    <!--使用if标签-->
+    <select id="findUserByCondition" resultType="user" parameterType="user">
+        select * from `user` where
+        <if test="username != null">
+            username = #{username}
+        </if>
+        <if test="sex != null">
+            and sex = #{sex}
+        </if>
+    </select>
+
+    <!--使用where标签-->
+<!--    <select id="findUserByCondition" resultType="user" parameterType="user">
+        select * from `user`
+        <where>
+            <if test="username != null">
+                username = #{username}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+        </where>
+    </select>
+-->
+
+    <!--根据筛选类中的idList查询用户列表-->
+    <select id="findUserByCriteria" parameterType="criteria" resultType="user">
+        select * from `user` where
+        <if test="idList != null and idList.size() > 0">
+            <foreach collection="idList" open="id in (" close=")" item="id" separator=", ">
+                #{id}
+            </foreach>
+        </if>
+        <!--与上含义一样： select * from `user` where id in (id1, id2, id3); //id1,id2..从idList中获取-->
+    </select>
+
+    <!--抽取重复的内容-->
+    <sql id="commonSelect">
+        select * from `user`
+    </sql>
+</mapper>

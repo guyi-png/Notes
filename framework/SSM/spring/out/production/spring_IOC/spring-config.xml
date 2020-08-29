@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uitl=
+               "http://www.springframework.org/schema/util" xmlns:p=
+               "http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--配置bean,  class属性为对应的java类,id为标识-->
+    <!--
+        class: bean的全类名，通过反射的方式再ioc容器中创建bean，所以要求bean中必须有空参的构造器
+        id: 标识容器中的bean，id是唯一的
+    -->
+    <bean id="helloWorld" class="com.spring1.propertyConfig.HelloWorld">
+        <!--属性注入，为该类设置属性-->
+        <property name="name" value="World"/>
+    </bean>
+
+
+
+
+    <!--通过构造器的参数注入-->
+    <bean id="test" class="com.spring1.propertyConfig.Test">
+        <!--为构造器的第一个参数(index=0),可以指定参数类型(type=?)设置值-->
+        <constructor-arg value="您好" index="0" type="java.lang.String"/>
+        <!--value可以写入标签内做子标签, 使用 <![CDATA[xx]]> 避免“< >”符号-->
+        <constructor-arg index="1" type="int">
+            <value>3</value>
+        </constructor-arg>
+    </bean>
+
+
+
+
+    <bean id="person" class="com.spring1.propertyConfig.Person">
+        <property name="name" value="Mike"/>
+        <property name="age" value="20"/>
+        <!--对其他bean的引用使用ref-->
+<!--        <property name="test" ref="test"/>-->
+        <!--使用ref内部标签-->
+<!--        <property name="test">-->
+<!--            <ref bean="test"></ref>-->
+<!--        </property>-->
+        <!--使用内部bean, 内部bean不能被外部引用-->
+        <property name="test">
+            <bean class="com.spring1.propertyConfig.Test">
+                <constructor-arg value="您👌" index="0" type="java.lang.String"/>
+                <constructor-arg value="4" index="1" type="int"/>
+            </bean>
+        </property>
+        <!--可以为引用属性赋null值， <null/> -->
+        <!--使用级联属性,为属性(不为空)的属性赋值-->
+        <property name="test.count" value="2"/>
+    </bean>
+
+
+
+    <bean id="person1" class="com.spring1.propertyConfig.Person">
+        <!--为list赋值-->
+        <property name="tests">
+            <list> <!-- <set>, <map> -->
+                <ref bean="test"/>
+                <ref bean="test"/>
+                <bean class="com.spring1.propertyConfig.Test">
+                    <constructor-arg index="0" type="java.lang.String" value="hello"/>
+                    <constructor-arg index="1" type="int" value="5"/>
+                </bean>
+                <ref bean="test"/>
+            </list>
+        </property>
+        <!--为map赋值-->
+        <property name="testMap">
+            <map>
+                <entry key="1" value-ref="test"/>
+                <entry key="2" value-ref="test"/>
+                <entry key="3">
+                    <bean class="com.spring1.propertyConfig.Test">
+                        <constructor-arg index="0" type="java.lang.String" value="olg"/>
+                        <constructor-arg index="1" value="6"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+
+
+    <!--properties的配置信息-->
+    <bean id="dataSource" class="com.spring1.propertyConfig.DataSource">
+        <property name="properties">
+            <props>
+                <prop key="user">root</prop>
+                <prop key="password">root</prop>
+                <prop key="url">jdbc:mysql:///test</prop>
+                <prop key="classDriver">com.mysql.jdbc.Driver</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--配置单例的集合bean,以供多个bean进行引用，需要导入util命名空间 -->
+    <uitl:list id="testList">
+        <bean class="com.spring1.propertyConfig.Test">
+            <constructor-arg index="0" value="olg"/>
+            <constructor-arg index="1" value="3"/>
+        </bean>
+        <bean class="com.spring1.propertyConfig.Test">
+            <constructor-arg index="0" value="lls"/>
+            <constructor-arg index="1" value="1"/>
+        </bean>
+        <bean class="com.spring1.propertyConfig.Test">
+            <constructor-arg index="0" value="glo"/>
+            <constructor-arg index="1" value="7"/>
+        </bean>
+        <ref bean="test"/>
+    </uitl:list>
+    <bean id="person2" class="com.spring1.propertyConfig.Person">
+        <property name="tests" ref="testList"/>
+    </bean>
+
+
+    <!--利用p命名空间为bean的属性赋值，需要导入p命名空间-->
+    <bean id="person3" class="com.spring1.propertyConfig.Person"
+          p:age="40" p:name="怪鸽" p:tests-ref="testList">
+
+    </bean>
+</beans>

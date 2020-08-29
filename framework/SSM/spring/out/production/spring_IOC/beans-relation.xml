@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 配置Address类， 可使父bean抽象,其不可用ioc容器实例化   -->
+    <bean id="address" class="com.spring1.beansRelation.Address"
+          abstract="true" p:city="alic" p:street="kgo"/>
+    <!--bean配置的继承-->
+    <bean id="address1"
+          parent="address"/>
+    <bean id="address2" parent="address1" p:street="llg"/>
+
+    <!--配置Car类-->
+    <bean class="com.spring1.beansRelation.Car" id="car"
+          p:brand="audi" p:price="239453"/>
+    <!--配置Person类，depend-on="car"表示必须与Car类的bean关联-->
+    <bean class="com.spring1.beansRelation.Person" id="person"
+          p:name="爱莉" p:address-ref="address2" depends-on="car"/>
+
+</beans>

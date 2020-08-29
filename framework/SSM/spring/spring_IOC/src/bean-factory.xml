@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--通过静态工厂方法来配置bean, 不是配置工厂方法的实例-->
+    <!--
+        class: 指向静态工厂方法的全类名
+        factory-method: 指向静态工厂方法的名字
+        constructor-arg: 如果工厂方法需要传入参数，则使用constructor-arg来配置参数
+    -->
+    <bean id="car1" class="com.spring2.factoryMethod.StaticCarFactory" factory-method="getCar">
+        <!--为factory-method的对应参数-->
+        <constructor-arg value="audi"/>
+    </bean>
+
+    <!--通过实例工厂方法来配置bean-->
+    <!--先配置工厂方法的bean-->
+    <bean id="carFactory" class="com.spring2.factoryMethod.InstanceCarFactory"/>
+    <bean class="com.spring2.factoryMethod.InstanceCarFactory" id="car2"
+          factory-bean="carFactory" factory-method="getCar">
+        <constructor-arg value="ford"/>
+    </bean>
+
+    <!--通过FactoryBean来配置bean-->
+    <!--
+        class: 指向FactoryBean的全类名
+        但实际却是返回CarFactoryBean中getObject()方法的返回实例
+    -->
+    <bean class="com.spring2.factoryMethod.CarFactoryBean" id="car3"/>
+
+</beans>

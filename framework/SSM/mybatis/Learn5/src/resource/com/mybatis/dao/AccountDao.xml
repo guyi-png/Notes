@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.AccountDao">
+    <!--配置返回值的映射关系-->
+    <resultMap id="accountMap" type="account">
+        <id property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="balance" column="balance"/>
+        <!--一对一的关系映射， 配置封装user的内容,  association:联想,协会,关联-->
+        <association property="user" column="uid" javaType="user"><!--uid通过此column获取属性user-->
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="birthday" column="birthday"/>
+            <result property="sex" column="sex"/>
+            <result property="address" column="address"/>
+        </association>
+    </resultMap>
+    <select id="getAll" resultMap="accountMap">
+        select a.*, u.username, u.address from `account` a left outer join `user` u on u.id = a.uid;
+    </select>
+</mapper>

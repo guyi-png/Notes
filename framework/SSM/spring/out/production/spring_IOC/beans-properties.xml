@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--导入属性文件-->
+    <context:property-placeholder location="druid.properties"/>
+    <bean class="com.spring1.propertyConfig.DataSource" id="dataSource1">
+        <property name="properties">
+            <props>
+                <!--通过${key}使用导入的属性文件的配置信息-->
+                <prop key="driverClassName">${driverClassName}</prop>
+                <prop key="url">${url}</prop>
+                <prop key="username">${user}</prop>
+                <prop key="password">${password}</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

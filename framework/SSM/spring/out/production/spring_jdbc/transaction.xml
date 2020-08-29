@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--导入properties配置文件-->
+    <context:property-placeholder location="druid.properties"/>
+    <!--配置druid数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${driverClassName}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <property name="initialSize" value="${initialSize}"/>
+        <property name="maxActive" value="${maxActive}"/>
+        <property name="maxWait" value="${maxWait}"/>
+        <property name="minIdle" value="${minIdle}"/>
+    </bean>
+
+    <!--配置Spring的jdbcTemplate-->
+    <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--配置bean-->
+    <bean class="com.spring.useXml.BookShopDAOImpl" id="bookShopDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+    <bean class="com.spring.useXml.BookShopServiceImpl" id="bookShopService">
+        <property name="bookShopDAO" ref="bookShopDAO"/>
+    </bean>
+    <bean class="com.spring.useXml.CashierImpl" id="cashier">
+        <property name="bookShopService" ref="bookShopService"/>
+    </bean>
+
+    <!--配置事务管理器-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+    id="transactionManager">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    <!--配置事务属性-->
+    <tx:advice transaction-manager="transactionManager" id="txAdvice">
+        <tx:attributes>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--配置事务切入点，以及让切入点与事务属性关联-->
+    <aop:config>
+        <aop:pointcut expression="execution( void checkout(..)) || execution(void purchase(..)) )" id="pointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
+    </aop:config>
+</beans>

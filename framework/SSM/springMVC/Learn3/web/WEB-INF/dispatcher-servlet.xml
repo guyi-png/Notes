@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--配置注解驱动-->
+    <mvc:annotation-driven/>
+    <!--配置自动扫描包-->
+    <context:component-scan base-package="com.springMVC"/>
+    <!---配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+    p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
+    <!--配置Interceptor拦截器-->
+    <mvc:interceptors>
+        <bean class="com.springMVC.interceptor.HelloInterceptor"/>
+        <!--配置拦截器和其作用的请求路径-->
+        <mvc:interceptor>
+            <mvc:mapping path="/message"/>
+            <bean class="com.springMVC.interceptor.MessageInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!--配置SimpleMappingExceptionResolver处理对应异常-->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionAttribute" value="e"/>  <!--为Attribute设置key名-->
+        <!--对应异常映射对应视图， 还会把异常加入request域-->
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.ArrayIndexOutOfBoundsException">
+                    error   <!--这是viewName-->
+                </prop>
+            </props>
+        </property>
+    </bean>
+</beans>

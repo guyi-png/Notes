@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.RoleDao">
+    <resultMap id="roleMap" type="role">
+        <id property="id" column="rid"/>
+        <result property="roleName" column="roleName"/>
+        <result property="roleDesc" column="roleDesc"/>
+        <collection property="users" ofType="user">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="birthday" column="birthday"/>
+            <result property="sex" column="sex"/>
+            <result property="address" column="address"/>
+        </collection>
+    </resultMap>
+    <!--查询所有, 以role作为主表，中间表为从表查询后的结果 做主表 user表为从表-->
+    <select id="getAll" resultMap="roleMap">
+        SELECT temp.id rid, temp.roleName, temp.roleDesc, u.* FROM
+        (SELECT r.*, ur.`uid` FROM `user_role` ur RIGHT JOIN `role` r ON r.id = ur.rid) temp
+        LEFT JOIN `user` u ON u.`id` = temp.uid ORDER BY rid ASC;
+    </select>
+</mapper>

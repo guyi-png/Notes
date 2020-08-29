@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    mybatis的映射配置文件位置必须和dao接口的包结构相同
+    映射配置文件的mapper标签namespace属性的取值必须是dao接口的全限定类名
+    映射配置文件的操作配置(select)， id属性的取值必须是dao接口的方法名
+-->
+<!--namespace为对应的类的包-->
+<mapper namespace="com.mybatis.dao.UserDao">
+    <!--配置查询所有, id 为对应方法的名称-->
+    <select id="getAll" resultType="com.mybatis.entity.User"><!--可以写sql语句了-->
+        select * from `user`
+    </select>
+</mapper>

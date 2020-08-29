@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.UserDao">
+    <!--配置查询结果与实体类的属性名的对应关系-->
+    <resultMap id="userMap" type="com.mybatis.entity.User">
+        <!--主键字段的对应关系-->
+        <id property="id" column="id"/>
+        <!--非主键字段的对应-->
+        <result property="username" column="username"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+    <!--配置查询所有, id 为对应方法的名称-->
+    <select id="getAll" resultMap="userMap"><!--可以写sql语句了-->
+        select * from `user`;
+    </select>
+
+    <!--指定参数类型， 通过#{}的方式获取参数的属性值-->
+    <insert id="saveUser" parameterType="com.mybatis.entity.User">
+        insert into `user`(username,birthday, sex, address)
+        values(#{username}, #{birthday}, #{sex}, #{address});
+        <!--配置插入操作后， 获取插入数据的id-->
+        <selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER">
+            select last_insert_id(); <!--在插入操作后，可以通过该方法返回对应的id-->
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.mybatis.entity.User">
+        update `user` set username=#{username} where id=#{id};
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        delete from `user` where id = #{id};  <!--#{id}的id这名可随意-->
+    </delete>
+
+    <select id="findById" resultMap="userMap" parameterType="Integer">
+        select * from `user` where id = #{id};
+    </select>
+
+    <select id="findByName" parameterType="String" resultMap="userMap">
+        select * from `user` where username like concat('%', #{name}, '%');
+        <!--select * from `user` where username like '%${value}%'  与上等价，注意value名是固定的 -->
+    </select>
+
+    <select id="getTotal" resultType="int">
+        select count(*) from `user`;
+    </select>
+
+    <!--通过 筛选类 查询-->
+    <select id="findUserByCriteria" parameterType="com.mybatis.entity.Criteria"
+            resultMap="userMap">
+        select * from `user` where username like concat('%', #{user.username}, '%') and id &lt; #{maxId};
+    </select>
+</mapper>

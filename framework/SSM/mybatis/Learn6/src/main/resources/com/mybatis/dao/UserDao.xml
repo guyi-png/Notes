@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.UserDao">
+    <!--开启user支持二级缓存-->
+    <cache/>
+    <!--配置返回值的映射关系-->
+    <resultMap id="userMap" type="user">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="address" column="address"/>
+        <!--
+        一对多的关系映射，用于延迟加载，
+        select属性指定内容，查询用户的唯一标识(全类名+方法名)，
+        column属性指定查询account时所用的uid
+        -->
+        <collection property="accounts" ofType="account"
+                    select="com.mybatis.dao.AccountDao.getByUid" column="id"/>
+        <!--多对多的关系映射,  配置封装role集合的内容-->
+<!--        <collection property="roles" ofType="role">-->
+<!--            <id property="id" column="rid"/>-->
+<!--            <result property="roleName" column="roleName"/>-->
+<!--            <result property="roleDesc" column="roleDesc"/>-->
+<!--        </collection>-->
+    </resultMap>
+
+    <select id="getById" parameterType="int" resultType="user" useCache="true">
+        select * from `user` where id = #{id};
+    </select>
+
+    <select id="getAllIncludeAccount" resultMap="userMap">
+        SELECT * FROM `user`;
+    </select>
+
+    <select id="getAllIncludeRole" resultMap="userMap">
+        SELECT temp.*, r.roleName, r.roleDesc FROM
+        (SELECT u.*, ur.`rid` FROM `user_role` ur RIGHT JOIN `user` u ON u.id = ur.uid) temp
+        LEFT JOIN `role` r ON r.`id` = temp.rid ORDER BY id ASC;
+    </select>
+
+
+    <!--在涉及到两个或多个表时避免 命名 冲突-->
+</mapper>

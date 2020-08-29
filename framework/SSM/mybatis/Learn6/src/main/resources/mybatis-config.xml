@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--mybatis的主配置文件-->
+<configuration>
+    <!--引用外部配置文件提供连接数据库的4个信息-->
+    <properties resource="jdbc.properties"/>
+    <!--配置参数-->
+    <settings>
+        <!--开启延迟加载(懒加载)的支持-->
+        <!--lazyLoadingEnabled:延迟加载的全局开关。
+        当开启时，所有关联对象都会延迟加载。
+        特定关联关系中可通过设置 fetchType 属性来覆盖该项的开关状态-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--开启时，任一方法的调用都会加载该对象的所有延迟加载属性。
+        否则，每个延迟加载属性会按需加载-->
+        <setting name="aggressiveLazyLoading" value="true"/>
+        <!--cacheEnabled:全局性地开启或关闭所有映射器配置文件中已配置的任何缓存。-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    <typeAliases>
+        <package name="com.mybatis.entity"/>
+    </typeAliases>
+    <!--  配置环境  -->
+    <environments default="mysql">
+        <!--配置mysql的环境-->
+        <environment id="mysql">
+            <!--配置事务的类型-->
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <package name="com.mybatis.dao"/>
+    </mappers>
+</configuration>

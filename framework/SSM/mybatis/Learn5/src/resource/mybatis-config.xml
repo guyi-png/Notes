@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--mybatis的主配置文件-->
+<configuration>
+    <!--引用外部配置文件提供连接数据库的4个信息-->
+    <properties resource="jdbc.properties"/>
+    <typeAliases>
+        <package name="com.mybatis.entity"/>
+    </typeAliases>
+    <!--  配置环境  -->
+    <environments default="mysql">
+        <!--配置mysql的环境-->
+        <environment id="mysql">
+            <!--配置事务的类型-->
+            <transactionManager type="JDBC"/>
+            <!--配置数据源（连接池）
+            type属性的取值：
+                POOLED： 采用传统的javax.sql.DataSource规范中的连接池
+                UNPOOLED：采用传统的获取连接的方式，但是没有用到池的思想
+                JNDI： 采用服务器提供的JNDI技术实现，来获取DataSource对象，
+                不同的服务器所能拿到DataSource是不同,但是如果不是web或maven工程，是不能使用的
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <package name="com.mybatis.dao"/>
+    </mappers>
+</configuration>

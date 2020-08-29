@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Learn3">
+    <output-path>$PROJECT_DIR$/Learn3/web</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Learn3/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Learn3" />
+        </element>
+        <element id="directory" name="lib" />
+      </element>
+    </root>
+  </artifact>
+</component>

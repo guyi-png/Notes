@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--配置自动扫描的包-->
+    <context:component-scan base-package="com.springMVC"/>
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+    p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
+    <!--解决静态资源获取问题的配置-->
+    <!--在SpringMVC-servlet.xml中配置<mvc:default-servlet-handler>后，
+    会在SpringMVC上下文中定义一个
+    org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler，
+    它会像一个检查员，对进入DispatcherServlet的URL进行筛查，
+    如果发现是静态资源请求，就将该请求转由Web服务器（Tomcat）默认的Servlet处理，
+    如果不是静态资源请求，才由DispatcherServlet继续处理-->
+    <mvc:default-servlet-handler/>
+
+    <!--配置ConversionService, 解决类型转换问题
+    class=org.springframework.context.support.ConversionServiceFactoryBean
+    @NumberFormat等就无效了，
+    可以使用org.springframework.format.support.FormattingConversionServiceFactoryBean-->
+    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean"
+          id="formattingConversionService"> <!--id放入《mvc:annotation-driven》-->
+        <property name="converters">
+            <set>
+                <ref bean="employeeConverter"/>
+            </set>
+        </property>
+    </bean>
+
+
+    <!--对于mvc:annotation-driven标签的解释：
+        它会自动注册RequestMappingHandlerMapping，
+        RequestMappingHandlerAdapter与ExceptionHandlerExceptionResolver三个bean
+        还会提供：
+            - 使用ConversionService实例对表单参数进行类型转换的支持(类型转换)
+            - 使用@NumberFormatannotation， @DateTimeFormat注解完成数据类型的格式化的支持(数据格式化)
+            - 使用@Valid注解对javaBean实例进行jsr303(jsr303是Java为bean数据合法性校验提供的标准框架)
+            验证的支持(数据校验)
+            - 使用@RequestBody和@ResponseBody注解的支持
+    mvc:annotation-driven 注解的作用， 看：
+    https://blog.csdn.net/qq_41984887/article/details/105045936 -->
+    <mvc:annotation-driven conversion-service="formattingConversionService"/>
+
+    <!--配置Validator ,  由于<mvc:annotation-driven/>会默认装配好一个LocalValidatorFactoryBean所以不用配置
+    providerClass提供的实现类，
+    validationMessageSource指定校验使用的资源文件，这里使用i18n.properties配置文件
+    如果不指定则默认使用classpath下的ValidationMessages.properties -->
+<!--    <bean class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" id="validator"-->
+<!--    p:providerClass="org.hibernate.validator.HibernateValidator"-->
+<!--    p:validationMessageSource-ref="messageSource"/>-->
+
+    <!--配置国际化资源文件-->
+    <!--SpringMVC数据校验并通过国际化显示错误信息， 看
+    https://www.cnblogs.com/hemou/p/12356175.html -->
+    <bean class="org.springframework.context.support.ResourceBundleMessageSource"
+    p:basename="i18n" id="messageSource"/>
+
+    <!--配置MultipartResolver, 用于文件的上传与下载-->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+    id="multipartResolver" p:defaultEncoding="UTF-8" p:maxUploadSize="102400"/>
+
+
+</beans>

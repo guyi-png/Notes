@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--类似于数据源， 事务， 整合其他的框架都是放在Spring的配置文件中，实际上放入Spring
+    配置文件对应的ioc容器中的还有 Service， DAO等-->
+
+    <!--若Spring的IOC容器和SpringMVC的IOC容器扫描的包重合，将会导致有些bean被创建两次
+    可以通过<context:component-scan>的子标签include-filter和exclude-filter
+     避免 两个扫描的包重合-->
+
+    <!--配置自动扫描包-->
+    <context:component-scan base-package="com.springMVC">
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!--SpringMVC的IOC容器中的bean可以引用Spring IOC容器中的bean
+    反过来则不行-->
+
+
+</beans>

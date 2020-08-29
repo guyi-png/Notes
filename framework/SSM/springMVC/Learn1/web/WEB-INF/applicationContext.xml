@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+<!--spring如何在WEB应用中使用？
+1. 导入额外的包，就是springMVC依赖包
+2. 应该在WEB应用中被服务器加载时被创建， 考虑使用ServletContextListener监听器，
+的contextInitialized(ServletContextEvent servletContextEvent)方法时创建ioc容器，
+并把它放在ServletContext(即application域)中-->
+</beans>

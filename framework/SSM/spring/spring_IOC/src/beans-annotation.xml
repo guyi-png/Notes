@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--指定Spring IOC容器扫描的包,
+        将扫描base-package指定的包及其所有子包
+        可以通过resource-pattern属性指定扫描的资源
+    -->
+    <context:component-scan base-package="com.spring3.annotation"
+    use-default-filters="true">
+        <!--排除指定注解的组件-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>-->
+        <!--只包含指定注解的组件，需要在父标签中将use-default-filters设为false-->
+<!--        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+        <!--排除指定的类名的组件-->
+<!--        <context:exclude-filter type="assignable" expression="com.spring3.annotation.UserRepository"/>-->
+        <!--只包含指定的类名的组件，需要在父标签中将use-default-filters设为false-->
+<!--        <context:include-filter type="assignable" expression="com.spring3.annotation.UserObject"/>-->
+    </context:component-scan>
+
+</beans>
