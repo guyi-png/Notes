@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--导入schema约束，此约束来源：复制hibernate-core:5.2.16.Final包下的/org/hibernate/jpa/persistence_2_0.xsd文件中的这一段出来即可。-->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <!--配置持久化单元（可以配置多个，名称不能重复）
+        name:用于指定持久化单元的名称
+        transaction-type:指定事务的类型。
+                      JTA:Java Transaction API
+                      RESOURCE_LOCAL:指的是本地代码事务
+    -->
+
+    <persistence-unit name="myPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <!--JPA规范提供商，可以不写-->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <!--添加持久化类-->
+        <class>com.jpa.entity.Customer</class>
+        <class>com.jpa.entity.Order</class>
+        <class>com.jpa.entity.Category</class>
+        <class>com.jpa.entity.Item</class>
+        <!--配置二级缓存的策略
+        ALL： 所有的实体类都被缓存
+        NONE： 所有的实体类都不被缓存
+        ENABLE_SELECTIVE: 标识@Cacheable(true)注解的实体类将被缓存
+        DISABLE_SELECTIVE: 缓存除@Cacheable(false)以外的所有实体类
+        UNSPECIFIED: 默认值，JPA产品默认值将被使用
+        -->
+<!--        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>-->
+        <!--连接相关的一些配置，都是用hibernate的。-->
+        <properties>
+            <!--第一部分，连接数据库信息-->
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/jpa?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai"/>
+            <property name="hibernate.connection.username" value="root"/>
+            <property name="hibernate.connection.password" value="root"/>
+            <!--说明:数据库的方言，用于存放不同数据库之间的SQL语句差异。-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+            <!--第二部分，hibernate的可选配置-->
+            <!--是否显示hibernate的生成的SQL语句-->
+            <property name="hibernate.show_sql" value="true"/>
+            <!--是否使用格式化输出SQL语句到控制台-->
+            <property name="hibernate.format_sql" value="true"/>
+            <!--采用何种方式生成DDL语句，update表示检测实体类的映射配置与数据库表结构是否一致，不一致，则更新数据库。-->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--连接池的配置，这里使用的是c3p0连接池-->
+            <property name="hibernate.connection.provider_class" value="org.hibernate.c3p0.internal.C3P0ConnectionProvider"/>
+            <!--二级缓存的配置,使用二级缓存-->
+<!--            <property name="hibernate.cache.use_second_level_cache" value="true"/>-->
+<!--            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.internal.EhcacheRegionFactory"/>-->
+            <!--与queryCache有关-->
+<!--            <property name="hibernate.cache.use_query_cache" value="true"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>

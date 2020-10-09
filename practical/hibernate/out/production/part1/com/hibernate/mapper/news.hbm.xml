@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!--实体类与数据库表映射-->
+<hibernate-mapping package="com.hibernate.mapper"><!--指定对应的包-->
+    <!--dynamic-update：设置动态更新，当调用一个setter时，只更改对应在数据库中的字段的值-->
+    <class name="News" table="news" dynamic-update="true">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>  <!--指定在数据库中对应的字段名-->
+            <!--指定主键的生成方式: native 表示使用数据库底层的生成方式-->
+            <generator class="native"/>
+        </id>
+        <property name="title" type="java.lang.String" unique="true" update="true" index="title_index"/>
+        <property name="author" type="java.lang.String" length="20"/>
+        <property name="date" type="java.util.Date"/>
+        <!--映射派生属性，该属性在数据库表中没有对应记录，由表中多个字段派生-->
+        <property name="desc" type="java.lang.String"
+                  formula="(SELECT CONCAT(author, ' + ', title) FROM news n WHERE n.id=id)"/>
+    </class>
+</hibernate-mapping>
