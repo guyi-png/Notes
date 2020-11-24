@@ -199,12 +199,3 @@ docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.
 
 ### 网络连通
 docker network connect 'networkName' 容器名     连接一个容器到一个网络上，这样这个容器就可以和该网络的其他容器连接
-
-
-
-
-### Dcoker compose
-
-### Docker Swarm
-
-es nginx jenkins 计算机网络原理
