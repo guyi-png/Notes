@@ -18,7 +18,7 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <!--统一框架的版本-->
-    <guyi.spring.version>5.2.7.RELEASE</guyi.spring.version>
+    <guyi.spring.version>5.2.22.RELEASE</guyi.spring.version>
   </properties>
 
   <dependencies>
